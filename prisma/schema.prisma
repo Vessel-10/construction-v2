@@ -1,13 +1,185 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  output   = "../lib/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+// ---------- Enums ----------
+
+enum UserRole {
+  ADMIN
+  EDITOR
+}
+
+enum ProjectStatus {
+  PLANNING
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum QuoteStatus {
+  NEW
+  CONTACTED
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+}
+
+// ---------- Users ----------
+
+model User {
+  id       String   @id @default(uuid())
+  name     String
+  email    String   @unique
+  password String
+  role     UserRole @default(EDITOR)
+  image    String?
+
+  blogPosts BlogPost[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ---------- Services ----------
+
+model Category {
+  id          String  @id @default(uuid())
+  name        String
+  slug        String  @unique
+  description String?
+
+  services Service[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Service {
+  id          String  @id @default(uuid())
+  title       String
+  slug        String  @unique
+  description String
+  image       String?
+  price       String?
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ---------- Projects ----------
+
+model Project {
+  id          String        @id @default(uuid())
+  title       String
+  slug        String        @unique
+  description String
+  location    String?
+  status      ProjectStatus @default(PLANNING)
+
+  images ProjectImage[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProjectImage {
+  id      String  @id @default(uuid())
+  url     String
+  caption String?
+
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+// ---------- Team & Testimonials ----------
+
+model TeamMember {
+  id    String  @id @default(uuid())
+  name  String
+  role  String
+  bio   String?
+  image String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Testimonial {
+  id         String  @id @default(uuid())
+  clientName String
+  message    String
+  rating     Int?
+  image      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ---------- Content ----------
+
+model FAQ {
+  id       String @id @default(uuid())
+  question String
+  answer   String
+  order    Int    @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BlogPost {
+  id         String  @id @default(uuid())
+  title      String
+  slug       String  @unique
+  content    String
+  coverImage String?
+  published  Boolean @default(false)
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ---------- Public form submissions ----------
+
+model QuoteRequest {
+  id          String      @id @default(uuid())
+  name        String
+  email       String
+  phone       String?
+  serviceType String?
+  message     String
+  status      QuoteStatus @default(NEW)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ContactMessage {
+  id      String  @id @default(uuid())
+  name    String
+  email   String
+  subject String?
+  message String
+  read    Boolean @default(false)
+
+  createdAt DateTime @default(now())
+}
+
+model NewsletterSubscriber {
+  id    String @id @default(uuid())
+  email String @unique
+
+  createdAt DateTime @default(now())
 }
