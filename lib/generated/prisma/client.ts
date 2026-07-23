@@ -101,3 +101,13 @@ export type ContactMessage = Prisma.ContactMessageModel
  * 
  */
 export type NewsletterSubscriber = Prisma.NewsletterSubscriberModel
+/**
+ * Model SiteSettings
+ * 
+ */
+export type SiteSettings = Prisma.SiteSettingsModel
+/**
+ * Model ActivityLog
+ * 
+ */
+export type ActivityLog = Prisma.ActivityLogModel

@@ -62,7 +62,9 @@ export const ModelName = {
   BlogPost: 'BlogPost',
   QuoteRequest: 'QuoteRequest',
   ContactMessage: 'ContactMessage',
-  NewsletterSubscriber: 'NewsletterSubscriber'
+  NewsletterSubscriber: 'NewsletterSubscriber',
+  SiteSettings: 'SiteSettings',
+  ActivityLog: 'ActivityLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -235,6 +237,36 @@ export const NewsletterSubscriberScalarFieldEnum = {
 } as const
 
 export type NewsletterSubscriberScalarFieldEnum = (typeof NewsletterSubscriberScalarFieldEnum)[keyof typeof NewsletterSubscriberScalarFieldEnum]
+
+
+export const SiteSettingsScalarFieldEnum = {
+  id: 'id',
+  companyName: 'companyName',
+  logoUrl: 'logoUrl',
+  contactEmail: 'contactEmail',
+  contactPhone: 'contactPhone',
+  contactAddress: 'contactAddress',
+  facebookUrl: 'facebookUrl',
+  instagramUrl: 'instagramUrl',
+  twitterUrl: 'twitterUrl',
+  linkedinUrl: 'linkedinUrl',
+  seoTitle: 'seoTitle',
+  seoDescription: 'seoDescription',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SiteSettingsScalarFieldEnum = (typeof SiteSettingsScalarFieldEnum)[keyof typeof SiteSettingsScalarFieldEnum]
+
+
+export const ActivityLogScalarFieldEnum = {
+  id: 'id',
+  action: 'action',
+  description: 'description',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type ActivityLogScalarFieldEnum = (typeof ActivityLogScalarFieldEnum)[keyof typeof ActivityLogScalarFieldEnum]
 
 
 export const SortOrder = {

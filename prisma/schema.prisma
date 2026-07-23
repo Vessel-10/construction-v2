@@ -38,7 +38,8 @@ model User {
   role     UserRole @default(EDITOR)
   image    String?
 
-  blogPosts BlogPost[]
+  blogPosts    BlogPost[]
+  activityLogs ActivityLog[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -180,6 +181,37 @@ model ContactMessage {
 model NewsletterSubscriber {
   id    String @id @default(uuid())
   email String @unique
+
+  createdAt DateTime @default(now())
+}
+
+model SiteSettings {
+  id          String  @id @default("singleton")
+  companyName String  @default("Construction CMS")
+  logoUrl     String?
+
+  contactEmail   String?
+  contactPhone   String?
+  contactAddress String?
+
+  facebookUrl  String?
+  instagramUrl String?
+  twitterUrl   String?
+  linkedinUrl  String?
+
+  seoTitle       String?
+  seoDescription String?
+
+  updatedAt DateTime @updatedAt
+}
+
+model ActivityLog {
+  id          String  @id @default(uuid())
+  action      String
+  description String?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
 }
